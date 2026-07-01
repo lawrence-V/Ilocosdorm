@@ -24,21 +24,22 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Folder Structure
 
+This project intentionally does not use a `src/` directory. Keep source folders at the project root.
+
 ```
-src/
-├── app/
-├── components/
-│   ├── ui/
-│   └── common/
-├── features/
-├── hooks/
-├── services/
-├── utils/
-├── lib/
-├── types/
-├── constants/
-├── styles/
-└── assets/
+app/
+components/
+├── ui/
+└── common/
+features/
+hooks/
+services/
+utils/
+lib/
+types/
+constants/
+styles/
+assets/
 ```
 
 ---
