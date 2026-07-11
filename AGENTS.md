@@ -1,7 +1,7 @@
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before touching Next-specific APIs, routing, caching, metadata, Server Actions, middleware, or config. Heed deprecation notices.
 
 
 # React + Next.js Code Conventions
@@ -16,7 +16,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Use React Hook Form for forms
 - Use Zod for validation
 - Use Tailwind CSS
-- Use shadcn/ui as the default UI library
+- Use shadcn/ui as the default UI library. This project is configured with `components.json`.
 - Use Server Components by default
 - Use Client Components only when necessary
 
@@ -62,6 +62,7 @@ app/
 ```
 
 Page components should only compose features.
+Keep business logic, large UI sections, and reusable component implementation out of page files.
 
 ---
 
@@ -367,6 +368,13 @@ Rules
 - Extend shadcn/ui components instead of modifying them directly.
 - Keep generated shadcn/ui components inside `components/ui`.
 - Feature-specific wrappers should live inside their respective feature folders.
+- Use the project's configured shadcn aliases:
+  - UI components: `@/components/ui/...`
+  - utilities: `@/lib/utils`
+  - hooks: `@/hooks/...`
+- Use Lucide icons, matching `components.json`.
+- Prefer semantic shadcn/Tailwind tokens and component variants over raw colors.
+- Check component docs or existing component files before using unfamiliar shadcn APIs.
 
 Example
 
@@ -463,7 +471,7 @@ features/auth/
 
 # Imports
 
-Prefer absolute imports.
+Prefer absolute imports using the configured `@/*` TypeScript path alias.
 
 ```
 import { Button } from "@/components/ui/button";
@@ -478,6 +486,14 @@ Import order
 3. Internal modules
 4. Types
 5. Styles
+
+---
+
+# Verification
+
+- Run `npm run lint` after code changes.
+- Run `npm run build` after changing routes, layouts, metadata, middleware, config, or server/client boundaries.
+- If verification cannot be run, explain why and what risk remains.
 
 ---
 

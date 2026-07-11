@@ -1,0 +1,155 @@
+import { AMENITIES } from "@/constants/amenities";
+import type { Dorm } from "@/types/Dorm";
+
+const image = (id: string, url: string, order = 0) => ({
+  id,
+  storagePath: `samples/${id}.jpg`,
+  displayOrder: order,
+  publicUrl: url,
+});
+
+export const SAMPLE_DORMS: Dorm[] = [
+  {
+    id: "11111111-1111-4111-8111-111111111111",
+    ownerId: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    name: "Balay Estudyante",
+    slug: "balay-estudyante-laoag",
+    description:
+      "A bright, secure student residence close to Mariano Marcos State University. Rooms are well ventilated, shared spaces are maintained daily, and essentials are within an easy walk.",
+    monthlyPrice: 4000,
+    address: "Brgy. 16 San Jacinto, Laoag City, Ilocos Norte",
+    city: "Laoag City",
+    latitude: 18.196,
+    longitude: 120.593,
+    genderPolicy: "mixed",
+    status: "approved",
+    contactName: "Maria Santos",
+    contactPhone: "+63 917 555 0184",
+    contactEmail: "maria@example.com",
+    createdAt: "2026-06-28T08:00:00Z",
+    updatedAt: "2026-07-08T08:00:00Z",
+    approvedAt: "2026-07-01T08:00:00Z",
+    images: [
+      image(
+        "img-1",
+        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1400&q=85",
+      ),
+      image(
+        "img-2",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=85",
+        1,
+      ),
+    ],
+    amenities: [AMENITIES[0], AMENITIES[1], AMENITIES[6], AMENITIES[7], AMENITIES[8]],
+  },
+  {
+    id: "22222222-2222-4222-8222-222222222222",
+    ownerId: "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+    name: "Northside Residences",
+    slug: "northside-residences-san-nicolas",
+    description:
+      "Quiet rooms designed for focused student living, with reliable Wi-Fi, a common study room, and convenient transport to nearby campuses.",
+    monthlyPrice: 3500,
+    address: "Brgy. 3, San Nicolas, Ilocos Norte",
+    city: "San Nicolas",
+    latitude: 18.172,
+    longitude: 120.595,
+    genderPolicy: "female",
+    status: "approved",
+    contactName: "Elena Dela Cruz",
+    contactPhone: "+63 918 555 0142",
+    createdAt: "2026-06-24T08:00:00Z",
+    updatedAt: "2026-07-06T08:00:00Z",
+    approvedAt: "2026-06-27T08:00:00Z",
+    images: [
+      image(
+        "img-3",
+        "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1400&q=85",
+      ),
+    ],
+    amenities: [AMENITIES[0], AMENITIES[3], AMENITIES[5], AMENITIES[6], AMENITIES[7]],
+  },
+  {
+    id: "33333333-3333-4333-8333-333333333333",
+    ownerId: "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+    name: "Casa Estudiante",
+    slug: "casa-estudiante-vigan",
+    description:
+      "A welcoming Vigan dorm with a shaded courtyard, furnished rooms, and easy access to the university belt and historic town center.",
+    monthlyPrice: 3800,
+    address: "Bantay Road, Vigan City, Ilocos Sur",
+    city: "Vigan City",
+    latitude: 17.574,
+    longitude: 120.387,
+    genderPolicy: "mixed",
+    status: "approved",
+    contactName: "Patricia Salazar",
+    contactPhone: "+63 919 555 0117",
+    createdAt: "2026-06-20T08:00:00Z",
+    updatedAt: "2026-07-04T08:00:00Z",
+    approvedAt: "2026-06-23T08:00:00Z",
+    images: [
+      image(
+        "img-4",
+        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1400&q=85",
+      ),
+    ],
+    amenities: [AMENITIES[0], AMENITIES[1], AMENITIES[2], AMENITIES[4], AMENITIES[8]],
+  },
+  {
+    id: "44444444-4444-4444-8444-444444444444",
+    ownerId: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    name: "Batac Boarding House",
+    slug: "batac-boarding-house",
+    description:
+      "Affordable boarding rooms near Batac campuses with a shared kitchen, laundry area, and secure motorcycle parking.",
+    monthlyPrice: 3200,
+    address: "Washington Street, Batac City, Ilocos Norte",
+    city: "Batac City",
+    latitude: 18.055,
+    longitude: 120.564,
+    genderPolicy: "male",
+    status: "pending",
+    contactName: "Carlos Rivera",
+    contactPhone: "+63 920 555 0195",
+    submittedAt: "2026-07-09T08:00:00Z",
+    createdAt: "2026-07-07T08:00:00Z",
+    updatedAt: "2026-07-09T08:00:00Z",
+    images: [
+      image(
+        "img-5",
+        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=85",
+      ),
+    ],
+    amenities: [AMENITIES[0], AMENITIES[3], AMENITIES[4], AMENITIES[5]],
+  },
+  {
+    id: "55555555-5555-4555-8555-555555555555",
+    ownerId: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    name: "Riverside Student Lodge",
+    slug: "riverside-student-lodge-laoag",
+    description:
+      "A compact student lodge with breezy shared spaces and utilities included in the monthly rate.",
+    monthlyPrice: 4500,
+    address: "Riverside, Laoag City, Ilocos Norte",
+    city: "Laoag City",
+    latitude: 18.2,
+    longitude: 120.59,
+    genderPolicy: "female",
+    status: "rejected",
+    contactName: "Maria Santos",
+    contactPhone: "+63 917 555 0184",
+    rejectionReason:
+      "Please upload a clear exterior photo and confirm the complete street address.",
+    submittedAt: "2026-07-03T08:00:00Z",
+    createdAt: "2026-07-02T08:00:00Z",
+    updatedAt: "2026-07-05T08:00:00Z",
+    images: [
+      image(
+        "img-6",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=85",
+      ),
+    ],
+    amenities: [AMENITIES[0], AMENITIES[8], AMENITIES[9]],
+  },
+];

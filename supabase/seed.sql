@@ -1,0 +1,3 @@
+-- Amenities are seeded by the initial migration. Add local auth users through
+-- Supabase Studio, then use the owner dashboard to create listings so all RLS
+-- and Storage policies are exercised during development.
