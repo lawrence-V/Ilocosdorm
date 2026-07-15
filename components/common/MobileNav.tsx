@@ -16,12 +16,17 @@ export function MobileNav() {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button className="sm:hidden" variant="ghost" size="icon" aria-label="Open navigation" />
+          <Button
+            className="size-11 sm:hidden"
+            variant="outline"
+            size="icon-lg"
+            aria-label="Open navigation"
+          />
         }
       >
         <MenuIcon />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="min-w-52 p-2">
         <DropdownMenuGroup>
           <DropdownMenuItem render={<Link href="/dorms" />}>Explore dorms</DropdownMenuItem>
           <DropdownMenuItem render={<Link href="/login" />}>Owner sign in</DropdownMenuItem>

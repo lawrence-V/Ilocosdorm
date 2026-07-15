@@ -24,7 +24,7 @@ export function LoginFeature() {
       toast.success(
         result.preview ? "Preview mode: opening the owner dashboard." : "Welcome back.",
       );
-      router.push("/owner");
+      router.push(result.role === "admin" ? "/admin" : "/owner");
       router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Unable to sign in.");
@@ -41,6 +41,7 @@ export function LoginFeature() {
               type="email"
               autoComplete="email"
               aria-invalid={Boolean(form.formState.errors.email)}
+              className="h-11"
               {...form.register("email")}
             />
             <FieldError errors={[form.formState.errors.email]} />
@@ -57,11 +58,12 @@ export function LoginFeature() {
               type="password"
               autoComplete="current-password"
               aria-invalid={Boolean(form.formState.errors.password)}
+              className="h-11"
               {...form.register("password")}
             />
             <FieldError errors={[form.formState.errors.password]} />
           </Field>
-          <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
+          <Button type="submit" size="lg" className="h-11" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Signing in…" : "Sign in"}
           </Button>
           <FieldDescription className="text-center">

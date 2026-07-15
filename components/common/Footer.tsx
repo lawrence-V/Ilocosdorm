@@ -5,14 +5,12 @@ import { Separator } from "@/components/ui/separator";
 
 export function Footer() {
   return (
-    <footer className="mt-auto bg-primary text-primary-foreground">
-      <PageContainer className="py-12">
-        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
+    <footer className="mt-auto border-t bg-secondary/55">
+      <PageContainer className="py-14 md:py-18">
+        <div className="grid gap-10 md:grid-cols-[1.5fr_0.75fr_0.75fr] md:gap-16">
           <div className="flex max-w-sm flex-col gap-4">
-            <div className="[&_a]:text-primary-foreground">
-              <Logo />
-            </div>
-            <p className="text-sm leading-6 text-primary-foreground/70">
+            <Logo />
+            <p className="text-sm leading-6 text-muted-foreground">
               Verified dorms and boarding houses across Ilocos, gathered in one dependable place.
             </p>
           </div>
@@ -20,13 +18,13 @@ export function Footer() {
             <p className="font-semibold">Explore</p>
             <Link
               href="/dorms"
-              className="text-primary-foreground/70 hover:text-primary-foreground"
+              className="text-muted-foreground transition-colors hover:text-foreground"
             >
               All dorms
             </Link>
             <Link
               href="/register"
-              className="text-primary-foreground/70 hover:text-primary-foreground"
+              className="text-muted-foreground transition-colors hover:text-foreground"
             >
               List a property
             </Link>
@@ -35,20 +33,20 @@ export function Footer() {
             <p className="font-semibold">For owners</p>
             <Link
               href="/login"
-              className="text-primary-foreground/70 hover:text-primary-foreground"
+              className="text-muted-foreground transition-colors hover:text-foreground"
             >
               Owner sign in
             </Link>
             <Link
               href="/owner"
-              className="text-primary-foreground/70 hover:text-primary-foreground"
+              className="text-muted-foreground transition-colors hover:text-foreground"
             >
               Dashboard
             </Link>
           </div>
         </div>
-        <Separator className="my-8 bg-primary-foreground/15" />
-        <p className="text-xs text-primary-foreground/60">
+        <Separator className="my-9" />
+        <p className="text-xs text-muted-foreground">
           © 2026 IlocosDorm. Built for students and families in Ilocos.
         </p>
       </PageContainer>

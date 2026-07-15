@@ -97,11 +97,11 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
     }
   };
   return (
-    <form className="mt-10 max-w-4xl">
-      <FieldGroup>
-        <section className="grid gap-6 rounded-lg border p-6">
+    <form className="mt-8 max-w-5xl">
+      <FieldGroup className="gap-6">
+        <section className="grid gap-6 rounded-2xl bg-card p-5 ring-1 ring-foreground/10 sm:p-7">
           <div>
-            <h2 className="font-heading text-2xl">Property details</h2>
+            <h2 className="text-2xl font-semibold tracking-[-0.025em]">Property details</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Tell students what makes this place a good fit.
             </p>
@@ -112,6 +112,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
               <Input
                 id="name"
                 aria-invalid={Boolean(form.formState.errors.name)}
+                className="h-11"
                 {...form.register("name")}
               />
               <FieldError errors={[form.formState.errors.name]} />
@@ -122,6 +123,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
                 id="slug"
                 aria-invalid={Boolean(form.formState.errors.slug)}
                 placeholder="balay-estudyante-laoag"
+                className="h-11"
                 {...form.register("slug")}
               />
               <FieldError errors={[form.formState.errors.slug]} />
@@ -148,6 +150,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
                 type="number"
                 min="0"
                 aria-invalid={Boolean(form.formState.errors.monthlyPrice)}
+                className="h-11"
                 {...form.register("monthlyPrice")}
               />
               <FieldError errors={[form.formState.errors.monthlyPrice]} />
@@ -160,7 +163,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
                   form.setValue("city", value ?? "", { shouldValidate: true })
                 }
               >
-                <SelectTrigger id="city" className="w-full">
+                <SelectTrigger id="city" className="h-11 w-full">
                   <SelectValue placeholder="Select city" />
                 </SelectTrigger>
                 <SelectContent>
@@ -182,7 +185,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
                   value && form.setValue("genderPolicy", value as ListingFormData["genderPolicy"])
                 }
               >
-                <SelectTrigger id="policy" className="w-full">
+                <SelectTrigger id="policy" className="h-11 w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -196,9 +199,9 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
             </Field>
           </div>
         </section>
-        <section className="grid gap-6 rounded-lg border p-6">
+        <section className="grid gap-6 rounded-2xl bg-card p-5 ring-1 ring-foreground/10 sm:p-7">
           <div>
-            <h2 className="font-heading text-2xl">Address and map</h2>
+            <h2 className="text-2xl font-semibold tracking-[-0.025em]">Address and map</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Use precise coordinates so families can plan a visit.
             </p>
@@ -208,6 +211,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
             <Input
               id="address"
               aria-invalid={Boolean(form.formState.errors.address)}
+              className="h-11"
               {...form.register("address")}
             />
             <FieldError errors={[form.formState.errors.address]} />
@@ -215,15 +219,27 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
           <div className="grid gap-5 sm:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="latitude">Latitude</FieldLabel>
-              <Input id="latitude" type="number" step="0.000001" {...form.register("latitude")} />
+              <Input
+                id="latitude"
+                type="number"
+                step="0.000001"
+                className="h-11"
+                {...form.register("latitude")}
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="longitude">Longitude</FieldLabel>
-              <Input id="longitude" type="number" step="0.000001" {...form.register("longitude")} />
+              <Input
+                id="longitude"
+                type="number"
+                step="0.000001"
+                className="h-11"
+                {...form.register("longitude")}
+              />
             </Field>
           </div>
         </section>
-        <section className="grid gap-6 rounded-lg border p-6">
+        <section className="grid gap-6 rounded-2xl bg-card p-5 ring-1 ring-foreground/10 sm:p-7">
           <FieldSet>
             <FieldLegend>Amenities</FieldLegend>
             <FieldDescription>Select every amenity currently available.</FieldDescription>
@@ -256,9 +272,9 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
             <FieldError errors={[form.formState.errors.amenities]} />
           </FieldSet>
         </section>
-        <section className="grid gap-6 rounded-lg border p-6">
+        <section className="grid gap-6 rounded-2xl bg-card p-5 ring-1 ring-foreground/10 sm:p-7">
           <div>
-            <h2 className="font-heading text-2xl">Owner contact</h2>
+            <h2 className="text-2xl font-semibold tracking-[-0.025em]">Owner contact</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               These details appear publicly on approved listings.
             </p>
@@ -266,22 +282,32 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
           <div className="grid gap-5 sm:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="contactName">Contact name</FieldLabel>
-              <Input id="contactName" {...form.register("contactName")} />
+              <Input id="contactName" className="h-11" {...form.register("contactName")} />
             </Field>
             <Field>
               <FieldLabel htmlFor="contactPhone">Phone number</FieldLabel>
-              <Input id="contactPhone" type="tel" {...form.register("contactPhone")} />
+              <Input
+                id="contactPhone"
+                type="tel"
+                className="h-11"
+                {...form.register("contactPhone")}
+              />
             </Field>
           </div>
           <Field>
             <FieldLabel htmlFor="contactEmail">Email address (optional)</FieldLabel>
-            <Input id="contactEmail" type="email" {...form.register("contactEmail")} />
+            <Input
+              id="contactEmail"
+              type="email"
+              className="h-11"
+              {...form.register("contactEmail")}
+            />
             <FieldError errors={[form.formState.errors.contactEmail]} />
           </Field>
         </section>
-        <section className="grid gap-4 rounded-lg border p-6">
+        <section className="grid gap-4 rounded-2xl bg-card p-5 ring-1 ring-foreground/10 sm:p-7">
           <div>
-            <h2 className="font-heading text-2xl">Dorm images</h2>
+            <h2 className="text-2xl font-semibold tracking-[-0.025em]">Dorm images</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Upload up to five images. They are resized to 1,200 px and converted to WebP before
               upload.
@@ -290,7 +316,7 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
           <Field>
             <FieldLabel
               htmlFor="images"
-              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed p-8 text-center hover:bg-muted"
+              className="flex min-h-36 cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed p-8 text-center transition-colors hover:bg-muted"
             >
               <ImagePlusIcon className="size-5" />
               {processing ? "Processing images…" : "Choose dorm images"}
@@ -317,6 +343,8 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
             variant="outline"
             disabled={form.formState.isSubmitting || processing}
             onClick={() => submit(false)}
+            size="lg"
+            className="h-11"
           >
             <SaveIcon data-icon="inline-start" />
             Save draft
@@ -325,6 +353,8 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
             type="button"
             disabled={form.formState.isSubmitting || processing}
             onClick={() => submit(true)}
+            size="lg"
+            className="h-11"
           >
             <SendIcon data-icon="inline-start" />
             Submit for review

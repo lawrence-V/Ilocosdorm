@@ -145,3 +145,8 @@ export const getAdminDorms = cache(async () => {
   if (!hasSupabaseEnv()) return SAMPLE_DORMS;
   return getLiveDorms();
 });
+
+export const getAdminDormById = cache(async (id: string) => {
+  const dorms = await getAdminDorms();
+  return dorms.find((dorm) => dorm.id === id) ?? null;
+});

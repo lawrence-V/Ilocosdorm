@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { AuthShell } from "@/features/auth/components/AuthShell";
 import { registerSchema, type RegisterFormData } from "@/features/auth/schemas/authSchema";
+import { getRegistrationErrorMessage } from "@/features/auth/utils/getRegistrationErrorMessage";
 import { signUp } from "@/services/authService";
 
 export function RegisterFeature() {
@@ -42,7 +43,7 @@ export function RegisterFeature() {
       );
       router.push(result.preview ? "/owner" : "/login");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unable to create your account.");
+      toast.error(getRegistrationErrorMessage(error));
     }
   });
   return (
@@ -58,6 +59,7 @@ export function RegisterFeature() {
               id="fullName"
               autoComplete="name"
               aria-invalid={Boolean(form.formState.errors.fullName)}
+              className="h-11"
               {...form.register("fullName")}
             />
             <FieldError errors={[form.formState.errors.fullName]} />
@@ -69,6 +71,7 @@ export function RegisterFeature() {
               type="email"
               autoComplete="email"
               aria-invalid={Boolean(form.formState.errors.email)}
+              className="h-11"
               {...form.register("email")}
             />
             <FieldError errors={[form.formState.errors.email]} />
@@ -80,6 +83,7 @@ export function RegisterFeature() {
               type="password"
               autoComplete="new-password"
               aria-invalid={Boolean(form.formState.errors.password)}
+              className="h-11"
               {...form.register("password")}
             />
             <FieldError errors={[form.formState.errors.password]} />
@@ -91,6 +95,7 @@ export function RegisterFeature() {
               type="password"
               autoComplete="new-password"
               aria-invalid={Boolean(form.formState.errors.confirmPassword)}
+              className="h-11"
               {...form.register("confirmPassword")}
             />
             <FieldError errors={[form.formState.errors.confirmPassword]} />
@@ -111,7 +116,12 @@ export function RegisterFeature() {
               <FieldError errors={[form.formState.errors.terms]} />
             </FieldContent>
           </Field>
-          <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
+          <Button
+            type="submit"
+            size="lg"
+            className="h-11"
+            disabled={form.formState.isSubmitting || !termsAccepted}
+          >
             {form.formState.isSubmitting ? "Creating account…" : "Create owner account"}
           </Button>
           <FieldDescription className="text-center">

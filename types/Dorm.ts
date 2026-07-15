@@ -49,3 +49,8 @@ export interface DormFilters {
   amenities?: string[];
   sort?: "newest" | "price-asc" | "price-desc";
 }
+
+export type DormMapListing = Pick<
+  Dorm,
+  "id" | "slug" | "name" | "monthlyPrice" | "address" | "city" | "latitude" | "longitude"
+>;

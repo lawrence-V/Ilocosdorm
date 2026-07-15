@@ -17,6 +17,12 @@ export default async function DormsPage({ searchParams }: PageProps<"/dorms">) {
     maxPrice:
       typeof params.maxPrice === "string" ? Number(params.maxPrice) || undefined : undefined,
     gender: typeof params.gender === "string" ? (params.gender as GenderPolicy) : undefined,
+    amenities:
+      typeof params.amenities === "string"
+        ? [params.amenities]
+        : Array.isArray(params.amenities)
+          ? params.amenities
+          : undefined,
     sort: typeof params.sort === "string" ? (params.sort as DormFilters["sort"]) : "newest",
   };
   const dorms = await getApprovedDorms(filters);

@@ -1,99 +1,92 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
 import { PageContainer } from "@/components/common/PageContainer";
 import { Button } from "@/components/ui/button";
-import { ILOCOS_CITIES } from "@/constants/amenities";
 import { DormGrid } from "@/features/dorms/components/DormGrid";
+import { BrowseByCity } from "@/features/home/components/BrowseByCity";
+import { DiscoveryShortcuts } from "@/features/home/components/DiscoveryShortcuts";
 import { HeroSearch } from "@/features/home/components/HeroSearch";
 import type { Dorm } from "@/types/Dorm";
 
-const LOCATION_IMAGES = [
-  "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1596395819057-e37f55a8516b?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=800&q=80",
-];
-
 export function HomeFeature({ dorms }: { dorms: Dorm[] }) {
+  const newestDorms = dorms.slice(0, 6);
+
   return (
-    <>
-      <section className="relative isolate min-h-[850px] overflow-visible bg-primary text-primary-foreground md:min-h-[610px]">
-        <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=90"
-          alt="A welcoming modern residence surrounded by tropical greenery"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,48,34,0.94)_0%,rgba(5,48,34,0.72)_36%,rgba(5,48,34,0.08)_70%)]" />
-        <PageContainer className="relative flex min-h-[610px] flex-col justify-start pb-24 pt-24 md:justify-center md:pt-16">
-          <div className="max-w-2xl">
-            <h1 className="font-heading text-5xl leading-[0.98] tracking-tight sm:text-7xl">
-              Find a place
-              <br />
-              that feels right.
+    <div className="bg-background">
+      <section className="bg-secondary/45">
+        <PageContainer className="py-14 sm:py-18 md:py-22">
+          <div className="mx-auto max-w-4xl text-center">
+            <h1 className="text-balance text-4xl leading-[1.02] font-semibold tracking-[-0.045em] sm:text-5xl md:text-6xl">
+              Find a dorm near school.
             </h1>
-            <p className="mt-7 max-w-md text-lg leading-8 text-primary-foreground/80">
-              Verified dormitories across Ilocos. Real places, clear details, and direct owner
-              contacts.
+            <p className="mx-auto mt-4 max-w-[52ch] text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
+              Compare verified homes, monthly prices, real photos, and locations across Ilocos.
             </p>
           </div>
-        </PageContainer>
-        <PageContainer className="absolute inset-x-0 bottom-8 md:bottom-0 md:translate-y-1/2">
-          <HeroSearch />
+
+          <div className="mx-auto mt-9 max-w-5xl">
+            <HeroSearch />
+          </div>
+
+          <DiscoveryShortcuts />
         </PageContainer>
       </section>
 
-      <PageContainer className="pb-24 pt-16 md:pt-28">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <h2 className="font-heading text-4xl">Newest dorms</h2>
-            <p className="mt-2 text-muted-foreground">Recently approved places ready to explore.</p>
+      <BrowseByCity />
+
+      <PageContainer className="py-20 md:py-28">
+        <div className="mb-9 flex flex-col items-start gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-xl">
+            <h2 className="text-3xl leading-tight font-semibold tracking-[-0.035em] sm:text-4xl">
+              Recently approved homes
+            </h2>
+            <p className="mt-3 max-w-[55ch] leading-7 text-muted-foreground">
+              Clear prices, useful location details, and photos reviewed before publishing.
+            </p>
           </div>
-          <Button render={<Link href="/dorms" />} variant="link">
+          <Button
+            render={<Link href="/dorms" />}
+            variant="outline"
+            size="lg"
+            className="h-11 rounded-full px-5"
+          >
             View all dorms
             <ArrowRightIcon data-icon="inline-end" />
           </Button>
         </div>
-        <DormGrid dorms={dorms.slice(0, 3)} />
+
+        <DormGrid dorms={newestDorms} />
       </PageContainer>
 
-      <section id="locations" className="bg-secondary py-20">
-        <PageContainer>
-          <div className="mb-8">
-            <h2 className="font-heading text-4xl">Explore by location</h2>
-            <p className="mt-2 text-muted-foreground">
-              Start near the campus or city you already know.
+      <PageContainer className="pb-20 md:pb-28">
+        <section className="grid overflow-hidden rounded-[1.75rem] bg-primary text-primary-foreground md:grid-cols-[1.3fr_0.7fr]">
+          <div className="flex flex-col gap-5 p-7 sm:p-10 md:p-14">
+            <h2 className="max-w-lg text-3xl leading-tight font-semibold tracking-[-0.03em] md:text-4xl">
+              Help students find your property.
+            </h2>
+            <p className="max-w-[52ch] leading-7 text-primary-foreground/75">
+              Add clear details, upload real photos, and track your listing from one workspace.
+            </p>
+            <div>
+              <Button
+                render={<Link href="/register" />}
+                variant="secondary"
+                size="lg"
+                className="h-11 rounded-full px-5"
+              >
+                List your dorm
+                <ArrowRightIcon data-icon="inline-end" />
+              </Button>
+            </div>
+          </div>
+          <div className="hidden bg-primary-foreground/7 p-10 md:flex md:flex-col md:justify-end">
+            <p className="text-sm leading-6 text-primary-foreground/72">
+              Every listing is checked before students and families can discover it.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {ILOCOS_CITIES.map((city, index) => (
-              <Link
-                key={city}
-                href={`/dorms?city=${encodeURIComponent(city)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-lg"
-              >
-                <Image
-                  src={LOCATION_IMAGES[index]}
-                  alt={`${city} streetscape`}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 50vw, 20vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-4 text-primary-foreground">
-                  <p className="font-heading text-xl">{city}</p>
-                  <span className="text-xs">Browse dorms →</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </PageContainer>
-      </section>
-    </>
+        </section>
+      </PageContainer>
+    </div>
   );
 }

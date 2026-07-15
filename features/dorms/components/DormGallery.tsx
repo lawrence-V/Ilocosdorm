@@ -3,9 +3,22 @@ import type { DormImage } from "@/types/Dorm";
 
 export function DormGallery({ name, images }: { name: string; images: DormImage[] }) {
   const sorted = images.toSorted((a, b) => a.displayOrder - b.displayOrder);
-  if (sorted.length === 0) return <div className="aspect-[16/7] rounded-lg bg-muted" />;
+  if (sorted.length === 0) return <div className="aspect-[16/8] rounded-2xl bg-muted" />;
+  if (sorted.length === 1)
+    return (
+      <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-muted md:aspect-[16/7]">
+        <Image
+          src={sorted[0].publicUrl}
+          alt={`${name} property`}
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+      </div>
+    );
   return (
-    <div className="grid gap-3 overflow-hidden rounded-lg md:grid-cols-2">
+    <div className="grid gap-3 overflow-hidden rounded-2xl md:grid-cols-[1.35fr_0.65fr]">
       <div className="relative aspect-[4/3] md:row-span-2 md:aspect-auto">
         <Image
           src={sorted[0].publicUrl}
@@ -16,7 +29,7 @@ export function DormGallery({ name, images }: { name: string; images: DormImage[
           sizes="(max-width: 768px) 100vw, 60vw"
         />
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-1">
         {sorted.slice(1, 5).map((image, index) => (
           <div key={image.id} className="relative aspect-[4/3] bg-muted">
             <Image

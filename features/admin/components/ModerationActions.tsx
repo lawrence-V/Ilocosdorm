@@ -33,7 +33,7 @@ export function ModerationActions({ dormId, dormName }: { dormId: string; dormNa
     }
   };
   return (
-    <div className="flex justify-end gap-2">
+    <div className="flex flex-wrap justify-end gap-2">
       <AlertDialog>
         <AlertDialogTrigger render={<Button size="sm" />}>
           <CheckIcon data-icon="inline-start" />

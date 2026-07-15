@@ -17,7 +17,7 @@ export default function LeafletMap({
       center={[latitude, longitude]}
       zoom={15}
       scrollWheelZoom={false}
-      className="h-[360px] w-full rounded-lg"
+      className="h-[360px] w-full rounded-2xl"
       aria-label={`Map showing ${name}`}
     >
       <TileLayer

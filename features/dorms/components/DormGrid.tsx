@@ -10,10 +10,16 @@ import {
 import { DormCard } from "@/features/dorms/components/DormCard";
 import type { Dorm } from "@/types/Dorm";
 
-export function DormGrid({ dorms }: { dorms: Dorm[] }) {
+export function DormGrid({
+  dorms,
+  layout = "default",
+}: {
+  dorms: Dorm[];
+  layout?: "default" | "split";
+}) {
   if (dorms.length === 0)
     return (
-      <Empty className="border">
+      <Empty className="rounded-2xl border bg-card py-16">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <Building2Icon />
@@ -27,7 +33,13 @@ export function DormGrid({ dorms }: { dorms: Dorm[] }) {
       </Empty>
     );
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div
+      className={
+        layout === "split"
+          ? "grid gap-x-5 gap-y-10 md:grid-cols-2"
+          : "grid gap-x-5 gap-y-10 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-6 xl:gap-y-12"
+      }
+    >
       {dorms.map((dorm) => (
         <DormCard key={dorm.id} dorm={dorm} />
       ))}
