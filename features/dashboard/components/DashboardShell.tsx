@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   Building2Icon,
+  CircleUserRoundIcon,
   ClipboardCheckIcon,
   HomeIcon,
   PlusCircleIcon,
@@ -22,8 +23,14 @@ const OWNER_ITEMS = [
 
 const ADMIN_ITEMS = [
   { href: "/admin", label: "Listing review", icon: ClipboardCheckIcon },
+  { href: "/admin/owners", label: "Owner verification", icon: ShieldCheckIcon },
   { href: "/admin/dorms", label: "Dorms", icon: Building2Icon },
   { href: "/admin/users", label: "Users", icon: UsersIcon },
+];
+
+const ACCOUNT_ITEMS = [
+  { href: "/account", label: "Account", icon: CircleUserRoundIcon },
+  { href: "/owner/apply", label: "Owner verification", icon: ShieldCheckIcon },
 ];
 
 export function DashboardShell({
@@ -32,10 +39,10 @@ export function DashboardShell({
   activePath,
 }: {
   children: ReactNode;
-  mode?: "owner" | "admin";
+  mode?: "owner" | "admin" | "account";
   activePath: string;
 }) {
-  const items = mode === "owner" ? OWNER_ITEMS : ADMIN_ITEMS;
+  const items = mode === "owner" ? OWNER_ITEMS : mode === "admin" ? ADMIN_ITEMS : ACCOUNT_ITEMS;
 
   return (
     <div className="min-h-[100dvh] bg-background">
@@ -45,7 +52,11 @@ export function DashboardShell({
           <div className="flex items-center gap-3">
             <div className="hidden items-center gap-2 text-sm font-medium text-muted-foreground sm:flex">
               <ShieldCheckIcon aria-hidden="true" className="size-4 text-primary" />
-              {mode === "owner" ? "Owner workspace" : "Admin workspace"}
+              {mode === "owner"
+                ? "Owner workspace"
+                : mode === "admin"
+                  ? "Admin workspace"
+                  : "Account workspace"}
             </div>
             <LogoutButton compact className="md:hidden" />
           </div>

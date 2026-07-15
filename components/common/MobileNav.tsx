@@ -10,8 +10,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { AccountNavigation } from "@/components/common/Header";
 
-export function MobileNav() {
+export function MobileNav({ accountNavigation }: { accountNavigation?: AccountNavigation }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -29,8 +30,21 @@ export function MobileNav() {
       <DropdownMenuContent align="end" className="min-w-52 p-2">
         <DropdownMenuGroup>
           <DropdownMenuItem render={<Link href="/dorms" />}>Explore dorms</DropdownMenuItem>
-          <DropdownMenuItem render={<Link href="/login" />}>Owner sign in</DropdownMenuItem>
-          <DropdownMenuItem render={<Link href="/register" />}>List your dorm</DropdownMenuItem>
+          {accountNavigation ? (
+            <>
+              <DropdownMenuItem render={<Link href={accountNavigation.accountHref} />}>
+                {accountNavigation.accountLabel}
+              </DropdownMenuItem>
+              <DropdownMenuItem render={<Link href={accountNavigation.propertyHref} />}>
+                {accountNavigation.propertyLabel}
+              </DropdownMenuItem>
+            </>
+          ) : (
+            <>
+              <DropdownMenuItem render={<Link href="/login" />}>Sign in</DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/register" />}>List your dorm</DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

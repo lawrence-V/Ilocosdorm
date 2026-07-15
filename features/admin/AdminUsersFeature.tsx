@@ -28,7 +28,7 @@ export function AdminUsersFeature({ profiles }: { profiles: Profile[] }) {
     <>
       <DashboardPageHeader
         title="Users"
-        description="Manage owner access and account availability."
+        description="Manage account availability. Owner access is granted through verification."
       />
 
       {profiles.length === 0 ? (

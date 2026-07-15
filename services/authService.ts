@@ -18,25 +18,14 @@ export async function signIn(email: string, password: string) {
 
   if (profileError) throw profileError;
 
-  let role = profile.role as UserRole;
-  if (role === "visitor") {
-    const { error: roleError } = await supabase.rpc("request_owner_access");
-    if (roleError) throw roleError;
-    role = "owner";
-  }
-
-  return { preview: false, role };
+  return { preview: false, role: profile.role as UserRole };
 }
 
 export async function signUp(credentials: SignUpWithPasswordCredentials) {
   if (!hasSupabaseEnv()) return { preview: true };
   const supabase = createClient();
-  const { data, error } = await supabase.auth.signUp(credentials);
+  const { error } = await supabase.auth.signUp(credentials);
   if (error) throw error;
-  if (data.session) {
-    const { error: roleError } = await supabase.rpc("request_owner_access");
-    if (roleError) throw roleError;
-  }
   return { preview: false };
 }
 

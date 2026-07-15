@@ -8,13 +8,7 @@ export function FitDormBounds({ positions }: { positions: [number, number][] }) 
   const map = useMap();
 
   useEffect(() => {
-    map.stop();
-
-    if (positions.length === 0) {
-      return () => {
-        map.stop();
-      };
-    }
+    if (positions.length === 0) return;
 
     if (positions.length === 1) {
       map.setView(positions[0], 15, { animate: false });
@@ -25,10 +19,6 @@ export function FitDormBounds({ positions }: { positions: [number, number][] }) 
         maxZoom: 13,
       });
     }
-
-    return () => {
-      map.stop();
-    };
   }, [map, positions]);
 
   return null;

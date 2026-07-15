@@ -35,7 +35,7 @@ export function RegisterFeature() {
         password: values.password,
         options: {
           data: { full_name: values.fullName },
-          emailRedirectTo: `${window.location.origin}/owner`,
+          emailRedirectTo: `${window.location.origin}/account`,
         },
       });
       toast.success(
@@ -48,8 +48,8 @@ export function RegisterFeature() {
   });
   return (
     <AuthShell
-      title="List your dorm"
-      description="Create an owner account and reach students across Ilocos."
+      title="Create your account"
+      description="Browse as a student or apply to list a property after signing in."
     >
       <form onSubmit={onSubmit}>
         <FieldGroup>
@@ -111,7 +111,7 @@ export function RegisterFeature() {
             />
             <FieldContent>
               <FieldLabel htmlFor="terms">
-                I confirm that my listing information will be accurate.
+                I agree to provide accurate information and follow the platform rules.
               </FieldLabel>
               <FieldError errors={[form.formState.errors.terms]} />
             </FieldContent>
@@ -122,7 +122,7 @@ export function RegisterFeature() {
             className="h-11"
             disabled={form.formState.isSubmitting || !termsAccepted}
           >
-            {form.formState.isSubmitting ? "Creating account…" : "Create owner account"}
+            {form.formState.isSubmitting ? "Creating account…" : "Create account"}
           </Button>
           <FieldDescription className="text-center">
             Already registered?{" "}

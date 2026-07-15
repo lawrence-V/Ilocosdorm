@@ -4,7 +4,14 @@ import { MobileNav } from "@/components/common/MobileNav";
 import { PageContainer } from "@/components/common/PageContainer";
 import { Button } from "@/components/ui/button";
 
-export function Header() {
+export interface AccountNavigation {
+  accountHref: string;
+  accountLabel: string;
+  propertyHref: string;
+  propertyLabel: string;
+}
+
+export function Header({ accountNavigation }: { accountNavigation?: AccountNavigation }) {
   return (
     <header className="bg-background">
       <PageContainer className="flex h-[4.5rem] items-center justify-between">
@@ -29,19 +36,45 @@ export function Header() {
           </nav>
         </div>
         <div className="hidden items-center gap-3 sm:flex">
-          <Button
-            render={<Link href="/login" />}
-            variant="ghost"
-            size="lg"
-            className="h-11 rounded-full px-5"
-          >
-            Owner sign in
-          </Button>
-          <Button render={<Link href="/register" />} size="lg" className="h-11 rounded-full px-5">
-            List your dorm
-          </Button>
+          {accountNavigation ? (
+            <>
+              <Button
+                render={<Link href={accountNavigation.accountHref} />}
+                variant="ghost"
+                size="lg"
+                className="h-11 rounded-full px-5"
+              >
+                {accountNavigation.accountLabel}
+              </Button>
+              <Button
+                render={<Link href={accountNavigation.propertyHref} />}
+                size="lg"
+                className="h-11 rounded-full px-5"
+              >
+                {accountNavigation.propertyLabel}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                render={<Link href="/login" />}
+                variant="ghost"
+                size="lg"
+                className="h-11 rounded-full px-5"
+              >
+                Sign in
+              </Button>
+              <Button
+                render={<Link href="/register" />}
+                size="lg"
+                className="h-11 rounded-full px-5"
+              >
+                List your dorm
+              </Button>
+            </>
+          )}
         </div>
-        <MobileNav />
+        <MobileNav accountNavigation={accountNavigation} />
       </PageContainer>
     </header>
   );

@@ -24,14 +24,16 @@ export function LoginFeature() {
       toast.success(
         result.preview ? "Preview mode: opening the owner dashboard." : "Welcome back.",
       );
-      router.push(result.role === "admin" ? "/admin" : "/owner");
+      const destination =
+        result.role === "admin" ? "/admin" : result.role === "owner" ? "/owner" : "/account";
+      router.push(destination);
       router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Unable to sign in.");
     }
   });
   return (
-    <AuthShell title="Welcome back" description="Sign in to manage your dorm listings.">
+    <AuthShell title="Welcome back" description="Sign in to your IlocosDorm account.">
       <form onSubmit={onSubmit}>
         <FieldGroup>
           <Field data-invalid={Boolean(form.formState.errors.email)}>
@@ -67,7 +69,7 @@ export function LoginFeature() {
             {form.formState.isSubmitting ? "Signing in…" : "Sign in"}
           </Button>
           <FieldDescription className="text-center">
-            New owner?{" "}
+            New to IlocosDorm?{" "}
             <Link href="/register" className="font-medium text-primary hover:underline">
               Create an account
             </Link>

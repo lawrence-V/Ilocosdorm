@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImagePlusIcon, SaveIcon, SendIcon } from "lucide-react";
+import { SaveIcon, SendIcon } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { AMENITIES, ILOCOS_CITIES } from "@/constants/amenities";
+import {
+  DormImageUpload,
+  type PendingDormImage,
+} from "@/features/owner/components/DormImageUpload";
+import { ListingLocationMap } from "@/features/owner/components/ListingLocationMap";
 import {
   listingSchema,
   type ListingFormData,
@@ -57,23 +62,60 @@ function defaults(dorm?: Dorm): ListingFormInput {
   };
 }
 
+const DEFAULT_LATITUDE = 18.196;
+const DEFAULT_LONGITUDE = 120.593;
+
+function coordinateValue(value: unknown, fallback: number) {
+  if (typeof value !== "string" && typeof value !== "number") return fallback;
+  const coordinate = Number(value);
+  return Number.isFinite(coordinate) ? coordinate : fallback;
+}
+
 export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
   const router = useRouter();
-  const [files, setFiles] = useState<File[]>([]);
+  const [images, setImages] = useState<PendingDormImage[]>([]);
   const [processing, setProcessing] = useState(false);
+  const previewUrls = useRef(new Set<string>());
   const form = useForm<ListingFormInput, unknown, ListingFormData>({
     resolver: zodResolver(listingSchema),
     defaultValues: defaults(dorm),
   });
-  const [city, genderPolicy, selectedAmenities = []] = useWatch({
+  const [city, genderPolicy, latitudeValue, longitudeValue, selectedAmenities = []] = useWatch({
     control: form.control,
-    name: ["city", "genderPolicy", "amenities"],
+    name: ["city", "genderPolicy", "latitude", "longitude", "amenities"],
   });
+  const latitude = coordinateValue(latitudeValue, DEFAULT_LATITUDE);
+  const longitude = coordinateValue(longitudeValue, DEFAULT_LONGITUDE);
+  const updatePosition = useCallback(
+    (nextLatitude: number, nextLongitude: number) => {
+      form.setValue("latitude", Number(nextLatitude.toFixed(6)), {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      form.setValue("longitude", Number(nextLongitude.toFixed(6)), {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    },
+    [form],
+  );
+  useEffect(
+    () => () => {
+      previewUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      previewUrls.current.clear();
+    },
+    [],
+  );
   const submit = (forReview: boolean) =>
     form.handleSubmit(async (values) => {
       try {
         const result = await saveListing({ ...values, submitForReview: forReview }, dorm?.id);
-        if (files.length) await uploadCurrentOwnerImages(result.id, files);
+        if (images.length) {
+          await uploadCurrentOwnerImages(
+            result.id,
+            images.map((image) => image.file),
+          );
+        }
         toast.success(forReview ? "Listing submitted for review." : "Draft saved.");
         router.push("/owner");
         router.refresh();
@@ -83,10 +125,19 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
     })();
   const handleImages = async (list: FileList | null) => {
     if (!list) return;
+    if (images.length + list.length > 5) {
+      toast.error(`Choose up to ${5 - images.length} more photo${images.length === 4 ? "" : "s"}.`);
+      return;
+    }
     try {
       setProcessing(true);
       const processed = await processDormImages(Array.from(list));
-      setFiles(processed);
+      const nextImages = processed.map((file) => {
+        const previewUrl = URL.createObjectURL(file);
+        previewUrls.current.add(previewUrl);
+        return { id: crypto.randomUUID(), file, previewUrl };
+      });
+      setImages((current) => [...current, ...nextImages]);
       toast.success(
         `${processed.length} image${processed.length === 1 ? "" : "s"} ready to upload.`,
       );
@@ -95,6 +146,14 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
     } finally {
       setProcessing(false);
     }
+  };
+  const removeImage = (imageId: string) => {
+    const image = images.find((item) => item.id === imageId);
+    if (image) {
+      URL.revokeObjectURL(image.previewUrl);
+      previewUrls.current.delete(image.previewUrl);
+    }
+    setImages((current) => current.filter((item) => item.id !== imageId));
   };
   return (
     <form className="mt-8 max-w-5xl">
@@ -216,26 +275,35 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
             />
             <FieldError errors={[form.formState.errors.address]} />
           </Field>
+          <ListingLocationMap
+            latitude={latitude}
+            longitude={longitude}
+            onPositionChange={updatePosition}
+          />
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field>
+            <Field data-invalid={Boolean(form.formState.errors.latitude)}>
               <FieldLabel htmlFor="latitude">Latitude</FieldLabel>
               <Input
                 id="latitude"
                 type="number"
                 step="0.000001"
+                aria-invalid={Boolean(form.formState.errors.latitude)}
                 className="h-11"
                 {...form.register("latitude")}
               />
+              <FieldError errors={[form.formState.errors.latitude]} />
             </Field>
-            <Field>
+            <Field data-invalid={Boolean(form.formState.errors.longitude)}>
               <FieldLabel htmlFor="longitude">Longitude</FieldLabel>
               <Input
                 id="longitude"
                 type="number"
                 step="0.000001"
+                aria-invalid={Boolean(form.formState.errors.longitude)}
                 className="h-11"
                 {...form.register("longitude")}
               />
+              <FieldError errors={[form.formState.errors.longitude]} />
             </Field>
           </div>
         </section>
@@ -313,29 +381,12 @@ export function ListingFormFeature({ dorm }: { dorm?: Dorm }) {
               upload.
             </p>
           </div>
-          <Field>
-            <FieldLabel
-              htmlFor="images"
-              className="flex min-h-36 cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed p-8 text-center transition-colors hover:bg-muted"
-            >
-              <ImagePlusIcon className="size-5" />
-              {processing ? "Processing images…" : "Choose dorm images"}
-            </FieldLabel>
-            <Input
-              id="images"
-              className="sr-only"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              multiple
-              disabled={processing}
-              onChange={(event) => handleImages(event.target.files)}
-            />
-            <FieldDescription>
-              {files.length
-                ? `${files.length} processed image${files.length === 1 ? "" : "s"} ready.`
-                : "The first image will be used as the cover."}
-            </FieldDescription>
-          </Field>
+          <DormImageUpload
+            images={images}
+            processing={processing}
+            onFilesSelected={handleImages}
+            onRemove={removeImage}
+          />
         </section>
         <div className="flex flex-wrap justify-end gap-3">
           <Button

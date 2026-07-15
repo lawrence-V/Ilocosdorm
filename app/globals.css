@@ -170,6 +170,23 @@
   color: var(--primary-foreground);
 }
 
+.listing-location-marker {
+  cursor: grab;
+  border: 0 !important;
+  background: transparent !important;
+  filter: drop-shadow(0 10px 10px color-mix(in oklch, var(--foreground) 28%, transparent));
+}
+
+.listing-location-marker svg {
+  display: block;
+  overflow: visible;
+}
+
+.listing-location-marker.leaflet-drag-target,
+.listing-location-marker:active {
+  cursor: grabbing;
+}
+
 .dorm-map-popup .leaflet-popup-content-wrapper {
   border-radius: 1rem;
   background: var(--popover);

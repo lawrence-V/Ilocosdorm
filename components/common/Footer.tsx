@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Logo } from "@/components/common/Logo";
 import { PageContainer } from "@/components/common/PageContainer";
 import { Separator } from "@/components/ui/separator";
+import type { AccountNavigation } from "@/components/common/Header";
 
-export function Footer() {
+export function Footer({ accountNavigation }: { accountNavigation?: AccountNavigation }) {
   return (
     <footer className="mt-auto border-t bg-secondary/55">
       <PageContainer className="py-14 md:py-18">
@@ -23,22 +24,28 @@ export function Footer() {
               All dorms
             </Link>
             <Link
-              href="/register"
+              href={accountNavigation?.propertyHref ?? "/register"}
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
-              List a property
+              {accountNavigation?.propertyLabel ?? "List a property"}
+            </Link>
+            <Link
+              href="/safety"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Safety guidelines
             </Link>
           </div>
           <div className="flex flex-col gap-3 text-sm">
             <p className="font-semibold">For owners</p>
             <Link
-              href="/login"
+              href={accountNavigation?.accountHref ?? "/login"}
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
-              Owner sign in
+              {accountNavigation?.accountLabel ?? "Sign in"}
             </Link>
             <Link
-              href="/owner"
+              href={accountNavigation?.accountHref ?? "/owner"}
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
               Dashboard

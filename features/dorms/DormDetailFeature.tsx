@@ -1,9 +1,11 @@
+import Link from "next/link";
 import {
   CheckIcon,
   GraduationCapIcon,
   MailIcon,
   MapPinIcon,
   PhoneIcon,
+  ShieldAlertIcon,
   ShieldCheckIcon,
 } from "lucide-react";
 
@@ -105,6 +107,27 @@ export function DormDetailFeature({ dorm }: { dorm: Dorm }) {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
+              <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+                <div className="flex items-start gap-3">
+                  <ShieldAlertIcon
+                    className="mt-0.5 size-5 shrink-0 text-primary"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-semibold">Protect yourself before contacting</p>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                      Never pay before verifying the property, contact person, and written
+                      agreement.
+                    </p>
+                    <Link
+                      href="/safety"
+                      className="mt-2 inline-flex text-sm font-semibold text-primary hover:underline"
+                    >
+                      Read safety guidelines
+                    </Link>
+                  </div>
+                </div>
+              </div>
               <div className="rounded-xl bg-secondary/70 p-4">
                 <p className="font-semibold">{dorm.contactName}</p>
                 <p className="mt-1 text-sm text-muted-foreground">Property owner</p>
@@ -130,8 +153,7 @@ export function DormDetailFeature({ dorm }: { dorm: Dorm }) {
               ) : null}
               <Separator />
               <p className="text-xs leading-5 text-muted-foreground">
-                IlocosDorm does not collect payments. Confirm the property in person before sending
-                money.
+                IlocosDorm does not collect payments or guarantee private arrangements.
               </p>
             </CardContent>
           </Card>
